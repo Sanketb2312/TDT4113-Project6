@@ -1,0 +1,1 @@
+#vurder behovet for dette, kanskje fikse en terminal interface?

@@ -1,0 +1,1 @@
+#skal væra method i følge oppgavaeteksten
