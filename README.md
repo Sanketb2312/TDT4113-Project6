@@ -1,4 +1,4 @@
-# TDT4113-Project6
+# TDT4113-Project6: Dimensionality Reduction for Visualization
 
 ## Sette opp prosjektet første gang
 ### Terminal
