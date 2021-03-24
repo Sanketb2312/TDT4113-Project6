@@ -1,4 +1,4 @@
-import numpy as np;
+import numpy as np
 
 
 def square_diff(point1, point2):
@@ -24,7 +24,7 @@ def pairwise_euclidean_distance(high_dimensional_data_points):
     temp = []
     for i in range(rows):
         temp.append(0)
-    for i in range (rows):
+    for i in range(rows):
         square_diff_matrix.append(temp.copy())
 
     already_calculated_to = 0
@@ -37,8 +37,6 @@ def pairwise_euclidean_distance(high_dimensional_data_points):
     return square_diff_matrix
 
 
-
-
 def k_nearest_neighbors(d_matrix, k):
     """Computes the k nearest neighbors of each point given a distance matrix.
        Returns a result matrix r where r[i, j] is 0 if point j is not one of point i's k nearest neighbors."""
@@ -46,8 +44,10 @@ def k_nearest_neighbors(d_matrix, k):
 
     already_calculated_to = 0
     for i in range(rows):
-        #k+1 to avoid counting already existing
-        for j in range(rows-k-1):
+        # k+1 to avoid counting already existing
+        # TODO: Burde optimaliseres
+        for j in range(rows - k - 1):
+            # TODO: Kan reduseres til en løkke?
             max_value = max(d_matrix[i])
             max_index = d_matrix[i].index(max_value)
             d_matrix[i][max_index] = 0
@@ -55,18 +55,28 @@ def k_nearest_neighbors(d_matrix, k):
     return d_matrix
 
 
+def normalize(matrix):
+    norm = matrix.copy()
+
+    m_sum = np.sum(matrix)
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            norm[i][j] = matrix[i][j] / m_sum
+
+    return norm
+
+
 if __name__ == '__main__':
-    x=[1,2,3]
-    y=[2,3,4]
-    print(square_diff(x,y))
+    x = [1, 2, 3]
+    y = [2, 3, 4]
+    print(square_diff(x, y))
 
-    x1=[4]
-    y2=[2]
-    print(square_diff(x1,y2))
+    x1 = [4]
+    y2 = [2]
+    print(square_diff(x1, y2))
 
-    x2 = [[1, 2, 3, 2,4], [2,4,3,3,2], [2,4,4,3,1], [2,4,3,3,1], [2,2,4,3,1], [0,0,1,0,0]]
+    x2 = [[1, 2, 3, 2, 4], [2, 4, 3, 3, 2], [2, 4, 4, 3, 1], [2, 4, 3, 3, 1], [2, 2, 4, 3, 1], [0, 0, 1, 0, 0]]
 
     print(pairwise_euclidean_distance(x2))
 
     print(k_nearest_neighbors(pairwise_euclidean_distance(x2), 3))
-
