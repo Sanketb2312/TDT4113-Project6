@@ -2,8 +2,8 @@ import numpy as np
 
 
 def square_diff(point1, point2):
-    """Computes Euclidean distance between the two fiven points.
-        Returns the square of the differance."""
+    """Computes Euclidean distance between the two given points.
+        Returns the square difference."""
     p1 = np.array([point1])
     p2 = np.array([point2])
     sum_of_p1s_squared = np.sum(np.multiply(p1, p1))
@@ -13,34 +13,35 @@ def square_diff(point1, point2):
     return sum_of_p1s_squared + sum_of_p2s_squared - 2 * sum_of_p1p2s
 
 
-def pairwise_euclidean_distance(high_dimensional_data_points):
+def pairwise_euclidean_distance(data_points):
     """Computes the distance between each point in the input matrix.
         Returns a result matrix r where r[i, j] is the distance between point i and point j."""
-    rows = len(high_dimensional_data_points)
-    square_diff_matrix = []
-    for amount in range(rows):
-        pass
 
-    temp = []
-    for i in range(rows):
-        temp.append(0)
-    for i in range(rows):
-        square_diff_matrix.append(temp.copy())
+    rows = len(data_points)
+    square_diff_matrix = np.zeros((rows, rows))
+    print(square_diff_matrix)
 
     already_calculated_to = 0
     for i in range(rows):
         for j in range(already_calculated_to, rows):
             if i != j:
-                square_diff_matrix[i][j] = square_diff(high_dimensional_data_points[i], high_dimensional_data_points[j])
+                square_diff_matrix[i][j] = square_diff(data_points[i], data_points[j])
                 square_diff_matrix[j][i] = square_diff_matrix[i][j]
         already_calculated_to += 1
     return square_diff_matrix
+
 
 
 def k_nearest_neighbors(d_matrix, k):
     """Computes the k nearest neighbors of each point given a distance matrix.
        Returns a result matrix r where r[i, j] is 0 if point j is not one of point i's k nearest neighbors."""
     rows = len(d_matrix)
+    print(k_nearest_neighbors())
+
+
+    #for i in range(rows):
+     #   s = np.argsort(d_matrix[i])
+
 
     already_calculated_to = 0
     for i in range(rows):
