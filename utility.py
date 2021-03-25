@@ -19,7 +19,6 @@ def pairwise_euclidean_distance(data_points):
 
     rows = len(data_points)
     square_diff_matrix = np.zeros((rows, rows))
-    print(square_diff_matrix)
 
     already_calculated_to = 0
     for i in range(rows):
@@ -35,25 +34,14 @@ def pairwise_euclidean_distance(data_points):
 def k_nearest_neighbors(d_matrix, k):
     """Computes the k nearest neighbors of each point given a distance matrix.
        Returns a result matrix r where r[i, j] is 0 if point j is not one of point i's k nearest neighbors."""
+    k_matrix = d_matrix.copy()
     rows = len(d_matrix)
-    print(k_nearest_neighbors())
-
-
-    #for i in range(rows):
-     #   s = np.argsort(d_matrix[i])
-
-
-    already_calculated_to = 0
     for i in range(rows):
-        # k+1 to avoid counting already existing
-        # TODO: Burde optimaliseres
-        for j in range(rows - k - 1):
-            # TODO: Kan reduseres til en løkke?
-            max_value = max(d_matrix[i])
-            max_index = d_matrix[i].index(max_value)
-            d_matrix[i][max_index] = 0
-        already_calculated_to += 1
-    return d_matrix
+        s = np.argsort(d_matrix[i])
+        for index in s[k + 1:]:
+            k_matrix[i][index] = 0
+
+    return k_matrix
 
 
 def normalize(matrix):
@@ -70,14 +58,14 @@ def normalize(matrix):
 if __name__ == '__main__':
     x = [1, 2, 3]
     y = [2, 3, 4]
-    print(square_diff(x, y))
+    #print(square_diff(x, y))
 
     x1 = [4]
     y2 = [2]
-    print(square_diff(x1, y2))
+    #print(square_diff(x1, y2))
 
     x2 = [[1, 2, 3, 2, 4], [2, 4, 3, 3, 2], [2, 4, 4, 3, 1], [2, 4, 3, 3, 1], [2, 2, 4, 3, 1], [0, 0, 1, 0, 0]]
 
-    print(pairwise_euclidean_distance(x2))
+    #print(pairwise_euclidean_distance(x2))
 
     print(k_nearest_neighbors(pairwise_euclidean_distance(x2), 3))
