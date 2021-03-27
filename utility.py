@@ -17,18 +17,10 @@ def pairwise_euclidean_distance(data_points):
     """Computes the distance between each point in the input matrix.
         Returns a result matrix r where r[i, j] is the distance between point i and point j."""
 
-    rows = len(data_points)
-    square_diff_matrix = np.zeros((rows, rows))
-
-    already_calculated_to = 0
-    for i in range(rows):
-        for j in range(already_calculated_to, rows):
-            if i != j:
-                square_diff_matrix[i][j] = square_diff(data_points[i], data_points[j])
-                square_diff_matrix[j][i] = square_diff_matrix[i][j]
-        already_calculated_to += 1
-    return square_diff_matrix
-
+    r_1 = np.sum(data_points ** 2, axis=1, keepdims=True)
+    r_2 = np.sum(data_points ** 2, axis=1)
+    r_3 = np.dot(data_points, data_points.T)
+    return r_1 + r_2 - 2*r_3
 
 
 def k_nearest_neighbors(d_matrix, k):
@@ -45,27 +37,27 @@ def k_nearest_neighbors(d_matrix, k):
 
 
 def normalize(matrix):
-    norm = matrix.copy()
+    return np.divide(matrix, np.sum(matrix))
 
-    m_sum = np.sum(matrix)
-    for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
-            norm[i][j] = matrix[i][j] / m_sum
 
-    return norm
+def read_data(file_path):
+    data = np.genfromtxt(file_path, delimiter=',')
+    return data
 
 
 if __name__ == '__main__':
     x = [1, 2, 3]
     y = [2, 3, 4]
-    #print(square_diff(x, y))
+    # print(square_diff(x, y))
 
     x1 = [4]
     y2 = [2]
-    #print(square_diff(x1, y2))
+    # print(square_diff(x1, y2))
 
     x2 = [[1, 2, 3, 2, 4], [2, 4, 3, 3, 2], [2, 4, 4, 3, 1], [2, 4, 3, 3, 1], [2, 2, 4, 3, 1], [0, 0, 1, 0, 0]]
 
-    #print(pairwise_euclidean_distance(x2))
+    # print(pairwise_euclidean_distance(x2))
 
-    print(k_nearest_neighbors(pairwise_euclidean_distance(x2), 3))
+    #print(k_nearest_neighbors(pairwise_euclidean_distance(x2), 3))
+
+    pairwise_euclidean_distance(read_data("data_files/digits.csv"))
