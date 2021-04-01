@@ -29,16 +29,17 @@ def k_nearest_neighbors(d_matrix, k):
     k_matrix = d_matrix.copy()
     rows = len(d_matrix)
     for i in range(rows):
+        print(i)
         s = np.argsort(d_matrix[i])
         for index in s[k + 1:]:
             k_matrix[i][index] = 0
+            print(index)
 
     return k_matrix
 
 
 def normalize(matrix):
     return np.divide(matrix, np.sum(matrix))
-
 
 def read_data(file_path):
     data = np.genfromtxt(file_path, delimiter=',')
