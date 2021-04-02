@@ -4,16 +4,18 @@ import matplotlib.pyplot as mp
 
 
 def t_sne(data_set, k, max_iter, alpha, epsilon):
+    np.random.seed(1)
+    np.set_printoptions(threshold=np.inf)
     print("started")
     x = np.genfromtxt("data_files/digits.csv", delimiter=",")
 
     k = k_nearest_neighbors(pairwise_euclidean_distance(data_set), k)
+    print("K", k)
     print("found k")
     p = (k + np.transpose(k) > 0).astype(float)
 
-    #rows = len(x)
-    rows = max_iter
-    print("HJKHKHBHKJ", rows)
+    rows = len(x)
+    # ("HJKHKHBHKJ", rows)
     print("found p", p)
 
     y = np.random.normal(0, 10 ** (-4), (rows, 2))
@@ -22,28 +24,13 @@ def t_sne(data_set, k, max_iter, alpha, epsilon):
     change = np.zeros((rows, 2))
 
     print("created y")
-
-    q = np.zeros((rows, rows))
-    already_calculated_to = 0
-    for i in range(rows):
-        for j in range(already_calculated_to, rows):
-            if i != j:
-                q[i][j] = (1 / (1 + square_diff(y[i], y[j])))
-                q[j][i] = q[i][j]
-        already_calculated_to += 1
-
-    print("created q")
-
     p_norm = normalize(p)
     print(p_norm)
-    q_norm = normalize(q)
-    print(q_norm)
 
     print("normalized p and q")
 
-
-    #Kommenter vekk enten 1 eller 2
-    #METODE 1
+    # Kommenter vekk enten 1 eller 2
+    # METODE 1
     # d = 0
     # for i in range(len(p_norm)):
     #     for j in range(len(p_norm[i])):
@@ -52,16 +39,33 @@ def t_sne(data_set, k, max_iter, alpha, epsilon):
     #             d += p_val * np.log(p_val / q_norm[i][j])
     for it in range(max_iter):
         print(it)
+        q = np.zeros((rows, rows))
+        print("q done")
+        already_calculated_to = 0
+        for i in range(rows):
+            print("i don: ", i)
+            for j in range(already_calculated_to, rows):
+                print(j)
+                if i != j:
+                    q[i][j] = (1 / (1 + square_diff(y[i], y[j])))
+                    q[j][i] = q[i][j]
+            already_calculated_to += 1
+
+        print("created q")
+
+        q_norm = normalize(q)
+        #print(q_norm)
+
         #  TODO: Vet ikke helt hva rangen til i og j skal være
         for i in range(len(y)):
             grad = np.zeros((1, 2))
             for j in range(len(y)):
-                #print("p_norm", p_norm[i][j])
-                #print("Q_norm", q_norm[i][j])
-                #print("q,i,i", q[i][j])
-                #print("yi", y[i] -y[j])
-                #print("yj", np.subtract(y[i], y[j]))
-                #print("yj", y[j])
+                # print("p_norm", p_norm[i][j])
+                # print("Q_norm", q_norm[i][j])
+                # print("q,i,i", q[i][j])
+                # print("yi", y[i] -y[j])
+                # print("yj", np.subtract(y[i], y[j]))
+                # print("yj", y[j])
                 # print(((p_norm[i][j] - q_norm[i][j]) * q[i][j]) * (y[i] -
                 # y[j]))
                 grad += ((p_norm[i][j] - q_norm[i][j])
@@ -82,17 +86,18 @@ def t_sne(data_set, k, max_iter, alpha, epsilon):
             y[i] += change[i]
             return y
 
-    #METODE 2
+    """
+    # METODE 2
     gain = np.ones((100, 2))
     change = np.zeros((100, 2))
-    lie_p = 4 * p
+    lie_p = 4 * p_norm
     for count in range(max_iter):
-        print(count)
+        # print(count)
         if count > 70:
             alpha = 0.8
-            g_matrix = np.subtract(p, q) * q_norm
+            g_matrix = np.subtract(p_norm, q_norm) * q
         else:
-            g_matrix = np.subtract(lie_p, q) * q_norm
+            g_matrix = np.subtract(lie_p, q_norm) * q
         s_matrix = np.diag(np.sum(g_matrix, axis=1))
         down_delta = np.matmul(4 * (s_matrix - g_matrix), y)
         for i in range(100):
@@ -107,6 +112,8 @@ def t_sne(data_set, k, max_iter, alpha, epsilon):
                 y[i] = y[i] + change[i]
             print("Iteration: " + str(count))
         return y
+        """
+
 
 
 if __name__ == '__main__':
@@ -115,7 +122,7 @@ if __name__ == '__main__':
     print("1.")
     c = read_data("data_files/digits_label.csv")
     print("2.")
-    result = t_sne(data[:3000, :], 25, 3000, 0.8, 500)
+    result = t_sne(data[:100, :], 5, 100, 0.8, 500)
     print(result)
     print("3.")
     x = result[:, 0]
@@ -125,7 +132,7 @@ if __name__ == '__main__':
     # print(x)
     # print(y)
     # print(c)
-    #mp.scatter(x, y, c[:500])
-    mp.scatter(x, y, s=10, c=c[:3000], marker=".", cmap='jet')
+    # mp.scatter(x, y, c[:500])
+    mp.scatter(x, y, s=10, c=c[:100], marker=".", cmap='jet')
     print("6.")
     mp.show()

@@ -29,11 +29,11 @@ def k_nearest_neighbors(d_matrix, k):
     k_matrix = d_matrix.copy()
     rows = len(d_matrix)
     for i in range(rows):
-        print(i)
+        #print(i)
         s = np.argsort(d_matrix[i])
         for index in s[k + 1:]:
             k_matrix[i][index] = 0
-            print(index)
+            #print(index)
 
     return k_matrix
 
