@@ -16,11 +16,10 @@ def square_diff(point1, point2):
 def pairwise_euclidean_distance(data_points):
     """Computes the distance between each point in the input matrix.
         Returns a result matrix r where r[i, j] is the distance between point i and point j."""
-
-    r_1 = np.sum(data_points ** 2, axis=1, keepdims=True)
-    r_2 = np.sum(data_points ** 2, axis=1)
-    r_3 = np.dot(data_points, data_points.T)
-    return r_1 + r_2 - 2*r_3
+    d_1 = np.sum(data_points ** 2, axis=1, keepdims=True)
+    d_2 = np.sum(data_points ** 2, axis=1)
+    d_3 = np.dot(data_points, data_points.T)
+    return d_1 + d_2 - 2*d_3
 
 
 def k_nearest_neighbors(d_matrix, k):
