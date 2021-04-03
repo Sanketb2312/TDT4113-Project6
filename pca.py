@@ -20,7 +20,7 @@ class PCA:
             [eigenvalues, eigenvectors] = eigs(cov_matrix, k=2)
         else:
             [eigenvalues, eigenvectors] = eigsh(cov_matrix, k=2)
-            ind_sorted = np.argsort(eigenvalues)
+            ind_sorted = np.argsort(eigenvalues)[::-1]
             eigenvectors = eigenvectors[:, ind_sorted[-2:]]
             eigenvectors = np.real(eigenvectors)
         return eigenvectors
@@ -36,8 +36,8 @@ class PCA:
         y_plot = self.transform()
         print(y_plot)
         if color == 2000:
-            c_c = np.arange(color)
-            plt.scatter(y_plot[:, 0], y_plot[:, 1], s=10, c=c_c, marker=".", cmap='jet')
+            x_plot = np.arange(color)
+            plt.scatter(y_plot[:, 0], y_plot[:, 1], s=10, c=x_plot, marker=".", cmap='jet')
             plt.show()
         elif color == 5620:
             color_plot = np.genfromtxt('data_files/digits_label.csv', delimiter=',')
