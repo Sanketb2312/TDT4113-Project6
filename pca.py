@@ -1,18 +1,23 @@
-#skal væra class i følge oppgavaeteksten
-import numpy as np
+'modul'
 import csv
+import numpy as np
 import matplotlib.pyplot as plt
 from scipy.sparse.linalg import eigs, eigsh
+
+
 class PCA:
+    'PCA class'
     def __init__(self):
-        self.data =''
+        'constructor'
+        self.data = None
 
     def read_data(self, path):
+        'reading data and converts to matrix'
         self.data = np.genfromtxt(path, delimiter=',')
 
-
     def fit(self):
-        centered_matrix = self.data-self.data.mean(axis=0)
+        'fit function and returns the porjection matrix consisting of the eigenvectors'
+        centered_matrix = self.data - self.data.mean(axis=0)
         cov_matrix = np.cov(centered_matrix.transpose())
         D = self.data.shape[1]
         print(D)
@@ -25,27 +30,27 @@ class PCA:
             eigenvectors = np.real(eigenvectors)
         return eigenvectors
 
-
     def transform(self):
-        centered_matrix = self.data-self.data.mean(axis=0)
+        centered_matrix = self.data - self.data.mean(axis=0)
         f = self.fit()
         trans = f.transpose()
-        return (trans@centered_matrix.transpose()).transpose()
+        return (trans @ centered_matrix.transpose()).transpose()
 
     def plot(self, color):
+        'plotting the data'
         y_plot = self.transform()
         print(y_plot)
         if color == 2000:
             x_plot = np.arange(color)
-            plt.scatter(y_plot[:, 0], y_plot[:, 1], s=10, c=x_plot, marker=".", cmap='jet')
+            plt.scatter(y_plot[:, 0], y_plot[:, 1], s=10,
+                        c=x_plot, marker=".", cmap='jet')
             plt.show()
         elif color == 5620:
-            color_plot = np.genfromtxt('data_files/digits_label.csv', delimiter=',')
-            plt.scatter(y_plot[:, 0], y_plot[:, 1], s=10, c=color_plot, marker=".", cmap='jet')
+            color_plot = np.genfromtxt(
+                'data_files/digits_label.csv', delimiter=',')
+            plt.scatter(y_plot[:, 0], y_plot[:, 1], s=10,
+                        c=color_plot, marker=".", cmap='jet')
             plt.show()
-
-
-
 
 
 if __name__ == '__main__':
