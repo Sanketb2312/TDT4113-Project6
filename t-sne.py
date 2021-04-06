@@ -1,9 +1,11 @@
+"""modul"""
 from utility import *
 import numpy as np
 import matplotlib.pyplot as mp
 
 
 def t_sne(data_set, col, max_iter, alpha, epsilon):
+    """t_sne functon"""
     np.random.seed(1)
 
     col = k_nearest_neighbors(pairwise_euclidean_distance(data_set), col)
@@ -13,7 +15,7 @@ def t_sne(data_set, col, max_iter, alpha, epsilon):
 
     rows = len(data_set)
 
-    y = np.random.normal(0, 10 ** (-4), (rows, 2))
+    y_y = np.random.normal(0, 10 ** (-4), (rows, 2))
 
     gain = np.ones((rows, 2))
     change = np.zeros((rows, 2))
@@ -23,25 +25,25 @@ def t_sne(data_set, col, max_iter, alpha, epsilon):
     for it in range(max_iter):
         print("iteration: ", it)
 
-        a = None
+        a_a = None
         if it < 250:
-            a = 0.5
+            a_a = 0.5
         else:
-            a = alpha
+            a_a = alpha
 
-        q = np.divide(1, 1 + pairwise_euclidean_distance(y))
+        q = np.divide(1, 1 + pairwise_euclidean_distance(y_y))
         np.fill_diagonal(q, 0)
         q_norm = normalize(q)
         print("big q found")
 
-        g = None
+        g_g = None
         if it < 100:
-            g = (4*p_norm - q_norm) * q
+            g_g = (4 * p_norm - q_norm) * q
         else:
-            g = (p_norm - q_norm) * q
+            g_g = (p_norm - q_norm) * q
 
-        s = np.diag(np.sum(g, axis=1))
-        grad = 4 * (s - g) @ y
+        s_s = np.diag(np.sum(g_g, axis=1))
+        grad = 4 * (s_s - g_g) @ y_y
         print("grad found")
         for i in range(rows):
             for col in range(2):
@@ -53,11 +55,11 @@ def t_sne(data_set, col, max_iter, alpha, epsilon):
                 if gain[i][col] < 0.01:
                     gain[i][col] = 0.01
 
-            change[i] = a * change[i] - epsilon * (gain[i] * grad[i])
-            y[i] += change[i]
+            change[i] = a_a * change[i] - epsilon * (gain[i] * grad[i])
+            y_y[i] += change[i]
         print("end")
 
-    return y
+    return y_y
 
 
 if __name__ == '__main__':
