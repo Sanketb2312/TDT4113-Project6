@@ -19,13 +19,12 @@ def pairwise_euclidean_distance(data_points):
     d_1 = np.sum(data_points ** 2, axis=1, keepdims=True)
     d_2 = np.sum(data_points ** 2, axis=1)
     d_3 = np.dot(data_points, data_points.T)
-    return np.sqrt(np.abs(d_1 + d_2 - 2 * d_3))
+    return d_1 + d_2 - 2 * d_3
 
 
 def k_nearest_neighbors(d_matrix, k):
     """Computes the k nearest neighbors of each point given a distance matrix.
        Returns a result matrix r where r[i, j] is 0 if point j is not one of point i's k nearest neighbors."""
-    print("jsakhdkjsah")
 
     k_matrix = d_matrix.copy()
     rows = len(d_matrix)
