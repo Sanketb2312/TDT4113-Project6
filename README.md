@@ -1,6 +1,6 @@
 # TDT4113-Project6: Dimensionality Reduction for Visualization
 
-## Sette opp prosjektet første gang
+## Project setup
 
 ### Terminal
 
@@ -40,3 +40,25 @@ Når du skal oppdatere dependencies så er det bare å kjøre:
 ```bash
 conda env update -f environment.yml
 ```
+
+### visualization of PCA with swiss_data
+
+![](media/PCAswiss_data.png)
+
+### visualization of PCA with digits
+
+![](media/PCAdigits.png)
+
+### visualization of isomap with swiss_data
+
+![](media/isomapswiss_data.png)
+
+### visualization of isomap with digits
+
+![](media/isomapdigits.png)
+
+### visualization of t-sne
+
+![](media/t-sne.png)
+
+
