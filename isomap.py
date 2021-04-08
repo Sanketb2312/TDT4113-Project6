@@ -68,5 +68,4 @@ if __name__ == '__main__':
         mds = multidimensional_scaling(selected_d_geodesics).transpose()
         plt.scatter(mds[0], mds[1], c=np.genfromtxt('data_files/digits_label.csv'), cmap="jet",
                     s=10, marker=".")
-
     plt.show()
